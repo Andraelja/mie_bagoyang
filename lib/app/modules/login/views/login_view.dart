@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:mie_bagoyang/app/shared/theme.dart';
 
 import '../controllers/login_controller.dart';
 
@@ -9,7 +10,7 @@ class LoginView extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFFF3E3),
+      backgroundColor: primary,
       body: SingleChildScrollView(
         child: Center(
           child: Padding(
@@ -39,6 +40,8 @@ class LoginView extends GetView<LoginController> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
+                    filled: true, // Aktifkan warna latar belakang
+                    fillColor: secondary, // Warna latar belakang
                   ),
                 ),
                 const SizedBox(height: 15),
@@ -48,14 +51,19 @@ class LoginView extends GetView<LoginController> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
+                    filled: true, // Aktifkan warna latar belakang
+                    fillColor: Color(0xFFD9D9D9), // Warna latar belakang
                   ),
                   obscureText: true,
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    // Tambahkan navigasi untuk login
+                    Get.toNamed('/home');
+                  },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFFFA237),
+                    backgroundColor: secondary,
                     padding: const EdgeInsets.symmetric(
                       vertical: 15,
                       horizontal: 100,
@@ -69,7 +77,7 @@ class LoginView extends GetView<LoginController> {
                     style: TextStyle(
                         fontSize: 24,
                         fontFamily: 'Poppins',
-                        color: Color(0xFFFFFFFF)),
+                        color: Color.fromARGB(255, 4, 4, 4)),
                   ),
                 ),
                 const SizedBox(height: 15),
@@ -98,13 +106,14 @@ class LoginView extends GetView<LoginController> {
                 GestureDetector(
                   onTap: () {
                     // Tambahkan navigasi untuk sign up
+                    Get.toNamed('/register');
                   },
                   child: const Text(
                     'No account? sign up',
                     style: TextStyle(
                       fontSize: 20,
                       fontFamily: 'Poppins',
-                      color: Colors.orange,
+                      color: Colors.black,
                       decoration: TextDecoration.underline,
                     ),
                   ),
