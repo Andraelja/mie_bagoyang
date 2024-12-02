@@ -18,7 +18,7 @@ class LoginView extends GetView<LoginController> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: 60), // Ruang di atas layar
+                const SizedBox(height: 50), // Ruang di atas layar
                 Image.asset(
                   'assets/images/mie_login.png',
                   width: 335,
