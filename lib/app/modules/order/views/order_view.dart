@@ -53,40 +53,59 @@ class OrderView extends GetView<OrderController> {
           // Header bagian atas
           Stack(
             children: [
-              // Rectangle sebagai latar belakang utama
+              // Latar belakang oranye
               Container(
                 width: double.infinity,
-                height: 160, // Tinggi diperbesar untuk memberi ruang tambahan
+                height: 180, // Sesuaikan tinggi untuk ruang lingkaran
                 color: Colors.orange,
               ),
-              // Icon back di atas
+              // Icon back
               Positioned(
-                top: 40, // Posisikan icon back
+                top: 40,
                 left: 16,
                 child: IconButton(
                   icon: const Icon(Icons.arrow_back, color: Colors.white),
                   onPressed: () => Get.back(),
                 ),
               ),
-              // Lingkaran di sekitar teks
+              // Lingkaran logo
               Positioned(
-                right: -20, // Geser lingkaran ke kanan
-                top: -20, // Teks lebih ke bawah
+                top: 50, // Sesuaikan posisi vertikal lingkaran
+                left: MediaQuery.of(context).size.width / 2 -
+                    75, // Pusatkan horizontal
                 child: Container(
-                  width: 250, // Lebar lingkaran
-                  height: 250, // Tinggi lingkaran
+                  width: 150,
+                  height: 150,
                   decoration: BoxDecoration(
                     color: const Color.fromARGB(255, 236, 201, 149),
                     shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.orange,
+                      width: 3,
+                    ),
                   ),
                   child: Center(
-                    child: Text(
-                      "Go 🍴Mieyang",
+                    child: RichText(
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 27, // Ukuran teks
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                      text: const TextSpan(
+                        children: [
+                          TextSpan(
+                            text: "Go\n",
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.orange,
+                            ),
+                          ),
+                          TextSpan(
+                            text: "🍴 Mieyang",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -97,8 +116,7 @@ class OrderView extends GetView<OrderController> {
           // Grid menu
           Expanded(
             child: Container(
-              padding: const EdgeInsets.fromLTRB(
-                  16.0, 32.0, 16.0, 16.0), // Tambahkan padding atas
+              padding: const EdgeInsets.fromLTRB(16.0, 32.0, 16.0, 16.0),
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -116,69 +134,74 @@ class OrderView extends GetView<OrderController> {
                 ),
                 itemBuilder: (context, index) {
                   final item = menuItems[index];
-                  return Card(
-                    elevation: 4,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        // Gambar menu
-                        Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.vertical(
-                                top: Radius.circular(8),
-                              ),
-                              color: Colors.grey[300],
-                              image: item["image"] != null
-                                  ? DecorationImage(
-                                      image: AssetImage(item["image"]),
-                                      fit: BoxFit.cover,
-                                    )
-                                  : null,
-                            ),
-                            child: item["image"] == null
-                                ? const Center(
-                                    child: Icon(
-                                      Icons.fastfood,
-                                      size: 40,
-                                      color: Colors.grey,
-                                    ),
-                                  )
-                                : null,
-                          ),
-                        ),
-                        // Nama menu
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            item["title"]!,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                            ),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        // Harga menu
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Text(
-                            item["price"]!,
-                            style: const TextStyle(
-                              color: Colors.orange,
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
+                  return _buildMenuItem(item);
                 },
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Widget untuk item menu
+  Widget _buildMenuItem(Map<String, dynamic> item) {
+    return Card(
+      elevation: 4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // Gambar menu
+          Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(8),
+                ),
+                color: Colors.grey[300],
+                image: item["image"] != null
+                    ? DecorationImage(
+                        image: AssetImage(item["image"]),
+                        fit: BoxFit.cover,
+                      )
+                    : null,
+              ),
+              child: item["image"] == null
+                  ? const Center(
+                      child: Icon(
+                        Icons.fastfood,
+                        size: 40,
+                        color: Colors.grey,
+                      ),
+                    )
+                  : null,
+            ),
+          ),
+          // Nama menu
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              item["title"]!,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          // Harga menu
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(
+              item["price"]!,
+              style: const TextStyle(
+                color: Colors.orange,
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ),

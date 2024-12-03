@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -152,19 +153,28 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  Text(
+                children: [
+                  const Text(
                     'Today\'s Special',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
                     ),
                   ),
-                  Text(
-                    'Makanan',
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontSize: 14,
+                  GestureDetector(
+                    onTap: () {
+                      // Navigasi ke halaman lain
+                      Get.toNamed(
+                          '/order'); // Ganti '/makanan' dengan rute tujuan Anda
+                    },
+                    child: const Text(
+                      'Makanan',
+                      style: TextStyle(
+                        color: Colors.blue, // Warna teks
+                        fontSize: 14,
+                        decoration:
+                            TextDecoration.none, // Tambahkan garis bawah
+                      ),
                     ),
                   ),
                 ],
@@ -180,19 +190,28 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  Text(
+                children: [
+                  const Text(
                     'Today\'s Special',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
                     ),
                   ),
-                  Text(
-                    'Minuman',
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontSize: 14,
+                  GestureDetector(
+                    onTap: () {
+                      // Navigasi ke halaman lain
+                      Get.toNamed(
+                          '/order_minuman'); // Ganti '/makanan' dengan rute tujuan Anda
+                    },
+                    child: const Text(
+                      'Minuman',
+                      style: TextStyle(
+                        color: Colors.blue, // Warna teks
+                        fontSize: 14,
+                        decoration:
+                            TextDecoration.none, // Tambahkan garis bawah
+                      ),
                     ),
                   ),
                 ],
@@ -241,11 +260,7 @@ class _HomePageState extends State<HomePage> {
               'price': 'Rp. 10.000',
               'image': 'mie_spesial.png'
             },
-            {
-              'name': 'Mie Ayam', 
-              'price': 'Rp. 15.000', 
-              'image': 'nasgor.png'
-            },
+            {'name': 'Mie Ayam', 'price': 'Rp. 15.000', 'image': 'nasgor.png'},
           ]
         : [
             {
@@ -253,11 +268,7 @@ class _HomePageState extends State<HomePage> {
               'price': 'Rp. 5.000',
               'image': 'teh_telur.png'
             },
-            {
-              'name': 'Es Jeruk', 
-              'price': 'Rp. 7.000', 
-              'image': 'es_jeruk.png'
-            },
+            {'name': 'Es Jeruk', 'price': 'Rp. 7.000', 'image': 'es_jeruk.png'},
           ];
 
     return Padding(
