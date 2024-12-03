@@ -14,8 +14,6 @@ import '../modules/payment_qr/bindings/payment_qr_binding.dart';
 import '../modules/payment_qr/views/payment_qr_view.dart';
 import '../modules/register/bindings/register_binding.dart';
 import '../modules/register/views/register_view.dart';
-import '../modules/riwayat_order/bindings/riwayat_order_binding.dart';
-import '../modules/riwayat_order/views/riwayat_order_view.dart';
 
 part 'app_routes.dart';
 
@@ -54,11 +52,6 @@ class AppPages {
       name: _Paths.ORDER_MINUMAN,
       page: () => const OrderMinumanView(),
       binding: OrderMinumanBinding(),
-    ),
-    GetPage(
-      name: _Paths.RIWAYAT_ORDER,
-      page: () => const RiwayatOrderView(),
-      binding: RiwayatOrderBinding(),
     ),
     GetPage(
       name: _Paths.PAYMENT_QR,
