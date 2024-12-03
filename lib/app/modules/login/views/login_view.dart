@@ -60,7 +60,7 @@ class LoginView extends GetView<LoginController> {
                 ElevatedButton(
                   onPressed: () {
                     // Tambahkan navigasi untuk login
-                    Get.toNamed('/home');
+                    Get.toNamed('/main_navigation');
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: secondary,

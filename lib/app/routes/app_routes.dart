@@ -8,6 +8,7 @@ abstract class Routes {
   static const REGISTER = _Paths.REGISTER;
   static const ORDER = _Paths.ORDER;
   static const MAIN_NAVIGATION = _Paths.MAIN_NAVIGATION;
+  static const RIWAYAT = _Paths.RIWAYAT;
 }
 
 abstract class _Paths {
@@ -17,4 +18,5 @@ abstract class _Paths {
   static const REGISTER = '/register';
   static const ORDER = '/order';
   static const MAIN_NAVIGATION = '/main-navigation';
+  static const RIWAYAT = '/riwayat';
 }

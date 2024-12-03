@@ -1,53 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../controllers/home_controller.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: HomePage(),
-    );
-  }
-}
-
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
-
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  final PageController _pageController = PageController();
-  int _currentPage = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(Duration(seconds: 3), _autoSlide);
-  }
-
-  void _autoSlide() {
-    if (_currentPage < 2) {
-      _pageController.animateToPage(
-        _currentPage + 1,
-        duration: Duration(seconds: 1),
-        curve: Curves.easeInOut,
-      );
-    } else {
-      _pageController.animateToPage(
-        0,
-        duration: Duration(seconds: 1),
-        curve: Curves.easeInOut,
-      );
-    }
-    setState(() {
-      _currentPage = (_currentPage + 1) % 3; // Assuming 3 images
-    });
-    Future.delayed(Duration(seconds: 3), _autoSlide);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,25 +27,52 @@ class _HomePageState extends State<HomePage> {
                   color: Colors.orange,
                   borderRadius: BorderRadius.circular(15),
                 ),
-                child: PageView(
-                  controller: _pageController,
-                  onPageChanged: (int page) {
-                    setState(() {
-                      _currentPage = page;
-                    });
-                  },
+                child: Stack(
                   children: [
-                    Image.asset(
-                      'assets/images/banner1.jpg',
-                      fit: BoxFit.cover,
+                    PageView(
+                      controller: controller.pageController,
+                      onPageChanged: (int page) {
+                        controller.currentPage.value = page;
+                      },
+                      children: [
+                        Image.asset(
+                          'assets/images/banner1.jpg',
+                          fit: BoxFit.cover,
+                        ),
+                        Image.asset(
+                          'assets/images/banner2.jpg',
+                          fit: BoxFit.cover,
+                        ),
+                        Image.asset(
+                          'assets/images/banner3.jpg',
+                          fit: BoxFit.cover,
+                        ),
+                      ],
                     ),
-                    Image.asset(
-                      'assets/images/banner2.jpg',
-                      fit: BoxFit.cover,
-                    ),
-                    Image.asset(
-                      'assets/images/banner3.jpg',
-                      fit: BoxFit.cover,
+                    Positioned(
+                      bottom: 10,
+                      left: 0,
+                      right: 0,
+                      child: Obx(() {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: List.generate(
+                            3, // Jumlah banner
+                            (index) => Container(
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 4),
+                              width: 8,
+                              height: 8,
+                              decoration: BoxDecoration(
+                                color: controller.currentPage.value == index
+                                    ? Colors.white
+                                    : Colors.white54,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                          ),
+                        );
+                      }),
                     ),
                   ],
                 ),
@@ -97,161 +80,108 @@ class _HomePageState extends State<HomePage> {
             ),
 
             // Best Seller Section
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text(
-                              'Best Seller',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
-                            ),
-                            SizedBox(height: 8),
-                            Text(
-                              'Jl. Raya Payakumbuh - Lintau, Lubuk Jantan...',
-                              style: TextStyle(fontSize: 14),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
-                        ),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        child: const Text(
-                          'Order',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+            _buildBestSellerSection(),
 
             const SizedBox(height: 16),
 
             // Today's Special - Makanan
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Today\'s Special',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      // Navigasi ke halaman lain
-                      Get.toNamed(
-                          '/order'); // Ganti '/makanan' dengan rute tujuan Anda
-                    },
-                    child: const Text(
-                      'Makanan',
-                      style: TextStyle(
-                        color: Colors.blue, // Warna teks
-                        fontSize: 14,
-                        decoration:
-                            TextDecoration.none, // Tambahkan garis bawah
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 8),
-            _buildSpecialGrid('Makanan'),
+            _buildSpecialSection('Makanan', '/order'),
 
             const SizedBox(height: 16),
 
             // Today's Special - Minuman
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Today\'s Special',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      // Navigasi ke halaman lain
-                      Get.toNamed(
-                          '/order_minuman'); // Ganti '/makanan' dengan rute tujuan Anda
-                    },
-                    child: const Text(
-                      'Minuman',
-                      style: TextStyle(
-                        color: Colors.blue, // Warna teks
-                        fontSize: 14,
-                        decoration:
-                            TextDecoration.none, // Tambahkan garis bawah
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 8),
-            _buildSpecialGrid('Minuman'),
+            _buildSpecialSection('Minuman', '/order_minuman'),
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 0,
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+    );
+  }
+
+  Widget _buildBestSellerSection() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    Text(
+                      'Best Seller',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      'Jl. Raya Payakumbuh - Lintau, Lubuk Jantan...',
+                      style: TextStyle(fontSize: 14),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: const Text(
+                  'Order',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.receipt),
-            label: 'Order',
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSpecialSection(String type, String route) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Today\'s Special',
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+              GestureDetector(
+                onTap: () => Get.toNamed(route),
+                child: Text(
+                  type,
+                  style: const TextStyle(
+                    color: Colors.blue,
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+            ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.qr_code_scanner),
-            label: 'Scan QR',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.history),
-            label: 'Riwayat',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Akun',
-          ),
+          const SizedBox(height: 8),
+          _buildSpecialGrid(type),
         ],
       ),
     );
   }
 
-  // Build GridView for Today's Special
   Widget _buildSpecialGrid(String type) {
     List<Map<String, String>> items = (type == 'Makanan')
         ? [
@@ -300,12 +230,12 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Text(
                         item['name']!,
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(height: 4),
+                      const SizedBox(height: 4),
                       Text(
                         item['price']!,
-                        style: TextStyle(color: Colors.green),
+                        style: const TextStyle(color: Colors.green),
                       ),
                     ],
                   ),
