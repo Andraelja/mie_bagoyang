@@ -1,47 +1,47 @@
 import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
 
-import '../controllers/order_controller.dart';
+import '../controllers/order_minuman_controller.dart';
 
-class OrderView extends GetView<OrderController> {
-  const OrderView({super.key});
-
+class OrderMinumanView extends GetView<OrderMinumanController> {
+  const OrderMinumanView({super.key});
   @override
   Widget build(BuildContext context) {
     final List<Map<String, dynamic>> menuItems = [
       {
-        "title": "Mie Bagoyang Level 1-5",
-        "price": "Rp. 10.000",
+        "title": "Jus Mangga",
+        "price": "Rp.5.000",
         "image": "assets/images/mie_bagoyang.jpg",
       },
       {
-        "title": "Nasi Goreng Spesial",
-        "price": "Rp. 15.000",
+        "title": "Jus Jeruk",
+        "price": "Rp. 5.000",
         "image": null,
       },
       {
-        "title": "Ayam Geprek",
-        "price": "Rp. 10.000",
+        "title": "Jus Tomat",
+        "price": "Rp. 5.000",
         "image": null,
       },
       {
-        "title": "Mie Rebus",
+        "title": "Teh telor",
         "price": "Rp. 12.000",
         "image": null,
       },
       {
-        "title": "Nasi Goreng Biasa",
-        "price": "Rp. 10.000",
+        "title": "Jasjus",
+        "price": "Rp. 1.000",
         "image": null,
       },
       {
-        "title": "Seblak",
-        "price": "Rp. 12.000",
+        "title": "Teh Manis",
+        "price": "Rp. 5.000",
         "image": null,
       },
       {
-        "title": "Pecel Lele",
-        "price": "Rp. 10.000",
+        "title": "Cappucino",
+        "price": "Rp. 5.000",
         "image": null,
       },
     ];

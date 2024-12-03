@@ -202,7 +202,7 @@ class _HomePageState extends State<HomePage> {
                     onTap: () {
                       // Navigasi ke halaman lain
                       Get.toNamed(
-                          '/order_minuman'); // Ganti '/makanan' dengan rute tujuan Anda
+                          '/order-minuman'); // Ganti '/makanan' dengan rute tujuan Anda
                     },
                     child: const Text(
                       'Minuman',
