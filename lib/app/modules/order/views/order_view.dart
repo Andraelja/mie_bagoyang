@@ -82,8 +82,8 @@ class OrderView extends GetView<OrderController> {
               ),
               // Teks dan ikon
               Positioned(
-                top: 70,
-                left: 50,
+                top: 50,
+                left: 70,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
