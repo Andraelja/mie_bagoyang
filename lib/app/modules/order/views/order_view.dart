@@ -50,14 +50,26 @@ class OrderView extends GetView<OrderController> {
       backgroundColor: Colors.black,
       body: Column(
         children: [
-          // Header bagian atas
           Stack(
             children: [
               // Latar belakang oranye
               Container(
                 width: double.infinity,
-                height: 180, // Sesuaikan tinggi untuk ruang lingkaran
+                height: 200,
                 color: Colors.orange,
+              ),
+              // Lingkaran semi-transparan
+              Positioned(
+                top: -50,
+                left: -50,
+                child: Container(
+                  width: 200,
+                  height: 200,
+                  decoration: BoxDecoration(
+                    color: Colors.orangeAccent.withOpacity(0.5),
+                    shape: BoxShape.circle,
+                  ),
+                ),
               ),
               // Icon back
               Positioned(
@@ -68,47 +80,45 @@ class OrderView extends GetView<OrderController> {
                   onPressed: () => Get.back(),
                 ),
               ),
-              // Lingkaran logo
+              // Teks dan ikon
               Positioned(
-                top: 50, // Sesuaikan posisi vertikal lingkaran
-                left: MediaQuery.of(context).size.width / 2 -
-                    75, // Pusatkan horizontal
-                child: Container(
-                  width: 150,
-                  height: 150,
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 236, 201, 149),
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: Colors.orange,
-                      width: 3,
-                    ),
-                  ),
-                  child: Center(
-                    child: RichText(
-                      textAlign: TextAlign.center,
-                      text: const TextSpan(
-                        children: [
-                          TextSpan(
-                            text: "Go\n",
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.orange,
-                            ),
-                          ),
-                          TextSpan(
-                            text: "🍴 Mieyang",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
+                top: 50,
+                left: 70,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'MENU',
+                      style: TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
                     ),
-                  ),
+                    Row(
+                      children: const [
+                        Text(
+                          'Go',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        SizedBox(width: 8),
+                        Icon(Icons.restaurant, color: Colors.black, size: 24),
+                        SizedBox(width: 8),
+                        Text(
+                          'Mieyang',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ],
