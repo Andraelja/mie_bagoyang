@@ -45,7 +45,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.MAIN_NAVIGATION,
-      page: () => const MainNavigationView(),
+      page: () => MainNavigationView(),
       binding: MainNavigationBinding(),
     ),
     GetPage(

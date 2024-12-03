@@ -20,6 +20,7 @@ abstract class _Paths {
   static const REGISTER = '/register';
   static const ORDER = '/order';
   static const MAIN_NAVIGATION = '/main-navigation';
+
   static const ORDER_MINUMAN = '/order-minuman';
   static const RIWAYAT_ORDER = '/riwayat-order';
   static const PAYMENT_QR = '/payment-qr';
