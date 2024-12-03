@@ -5,6 +5,10 @@ class HomeController extends GetxController {
 
   final count = 0.obs;
 
+  get pageController => null;
+
+  get currentPage => null;
+
 
 
   void increment() => count.value++;
