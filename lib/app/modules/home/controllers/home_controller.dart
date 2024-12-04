@@ -2,18 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
+  // PageView controller
   final PageController pageController = PageController();
   final RxInt currentPage = 0.obs;
+  final int totalPages = 3; // Jumlah total halaman banner yang dinamis
 
-  final int totalPages = 3; // Jumlah total halaman yang dinamis
+  // Daftar jumlah barang untuk setiap item menu
+  final RxList<int> itemCounts = List<int>.generate(4, (index) => 0).obs;
+
+  // Hitung total barang yang dipilih
+  int get totalItems => itemCounts.reduce((a, b) => a + b);
 
   @override
   void onInit() {
     super.onInit();
     _startAutoSlide();
   }
-  
 
+  // Fungsi auto-slide untuk banner
   void _startAutoSlide() {
     Future.delayed(const Duration(seconds: 3), _autoSlide);
   }
@@ -44,5 +50,17 @@ class HomeController extends GetxController {
   void onClose() {
     pageController.dispose(); // Membersihkan resource
     super.onClose();
+  }
+
+  // Fungsi untuk menambah jumlah item
+  void incrementItem(int index) {
+    itemCounts[index]++;
+  }
+
+  // Fungsi untuk mengurangi jumlah item
+  void decrementItem(int index) {
+    if (itemCounts[index] > 0) {
+      itemCounts[index]--;
+    }
   }
 }

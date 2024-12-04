@@ -49,8 +49,8 @@ class MainNavigationView extends GetView<MainNavigationController> {
                 label: 'Home',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.info_outline_rounded),
-                label: 'Info',
+                icon: Icon(Icons.fastfood), // Ganti ikon dengan ikon makanan
+                label: 'Makanan', // Ganti label menjadi "Makanan"
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.airplane_ticket_rounded),
@@ -64,7 +64,7 @@ class MainNavigationView extends GetView<MainNavigationController> {
             selectedItemColor: Colors.white,
             unselectedItemColor: Colors.white70,
             type: BottomNavigationBarType.fixed,
-            backgroundColor: Colors.transparent,
+            backgroundColor: primary,
             elevation: 0,
           ),
         ),
