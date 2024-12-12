@@ -1,66 +1,54 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
-  // PageView controller
-  final PageController pageController = PageController();
-  final RxInt currentPage = 0.obs;
-  final int totalPages = 3; // Jumlah total halaman banner yang dinamis
+  // Data barang
+  final List<Map<String, String>> items = [
+    {'name': 'Mie Bagoyang', 'price': '10000', 'image': 'mie_spesial.png'},
+    {'name': 'Mie Ayam', 'price': '15000', 'image': 'nasgor.png'},
+    {'name': 'Es Teh Manis', 'price': '5000', 'image': 'teh_telur.png'},
+    {'name': 'Es Jeruk', 'price': '7000', 'image': 'es_jeruk.png'},
+  ];
 
-  // Daftar jumlah barang untuk setiap item menu
-  final RxList<int> itemCounts = List<int>.generate(4, (index) => 0).obs;
+  // Jumlah barang yang dipilih
+  final RxList<int> itemCounts = [0, 0, 0, 0].obs;
 
-  // Hitung total barang yang dipilih
+  // Hitung total item
   int get totalItems => itemCounts.reduce((a, b) => a + b);
 
-  @override
-  void onInit() {
-    super.onInit();
-    _startAutoSlide();
-  }
-
-  // Fungsi auto-slide untuk banner
-  void _startAutoSlide() {
-    Future.delayed(const Duration(seconds: 3), _autoSlide);
-  }
-
-  void _autoSlide() {
-    if (!pageController.hasClients)
-      return; // Mencegah error jika controller belum terpasang
-
-    if (currentPage.value < totalPages - 1) {
-      pageController.animateToPage(
-        currentPage.value + 1,
-        duration: const Duration(seconds: 1),
-        curve: Curves.easeInOut,
-      );
-    } else {
-      pageController.animateToPage(
-        0,
-        duration: const Duration(seconds: 1),
-        curve: Curves.easeInOut,
-      );
+  // Hitung total harga
+  int calculateTotal() {
+    int total = 0;
+    for (int i = 0; i < items.length; i++) {
+      final price = int.parse(items[i]['price']!);
+      total += price * itemCounts[i];
     }
-
-    currentPage.value = (currentPage.value + 1) % totalPages;
-    _startAutoSlide(); // Melanjutkan auto-slide
+    return total;
   }
 
-  @override
-  void onClose() {
-    pageController.dispose(); // Membersihkan resource
-    super.onClose();
-  }
-
-  // Fungsi untuk menambah jumlah item
+  // Tambah barang
   void incrementItem(int index) {
     itemCounts[index]++;
   }
 
-  // Fungsi untuk mengurangi jumlah item
+  // Kurangi barang
   void decrementItem(int index) {
     if (itemCounts[index] > 0) {
       itemCounts[index]--;
     }
+  }
+
+  // Ambil barang yang dipesan
+  List<Map<String, dynamic>> getSelectedItems() {
+    List<Map<String, dynamic>> selectedItems = [];
+    for (int i = 0; i < items.length; i++) {
+      if (itemCounts[i] > 0) {
+        selectedItems.add({
+          'name': items[i]['name']!,
+          'price': int.parse(items[i]['price']!),
+          'count': itemCounts[i],
+        });
+      }
+    }
+    return selectedItems;
   }
 }

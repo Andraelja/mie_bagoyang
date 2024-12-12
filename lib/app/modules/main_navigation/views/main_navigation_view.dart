@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mie_bagoyang/app/modules/home/views/home_view.dart';
 import 'package:mie_bagoyang/app/modules/order/views/order_view.dart';
-import 'package:mie_bagoyang/app/modules/register/views/register_view.dart';
+import 'package:mie_bagoyang/app/modules/order_minuman/views/order_minuman_view.dart';
 import 'package:mie_bagoyang/app/shared/theme.dart';
 import '../controllers/main_navigation_controller.dart';
 
@@ -23,7 +23,7 @@ class MainNavigationView extends GetView<MainNavigationController> {
           case 1:
             return const OrderView();
           case 2:
-            return const RegisterView();
+            return const OrderMinumanView();
           default:
             return const Center(
               child: Text("Page not found!"),
@@ -53,9 +53,7 @@ class MainNavigationView extends GetView<MainNavigationController> {
                 label: 'Makanan', // Ganti label menjadi "Makanan"
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.airplane_ticket_rounded),
-                label: 'Order',
-              ),
+                  icon: Icon(Icons.local_drink), label: 'Minuman'),
               BottomNavigationBarItem(
                 icon: Icon(Icons.person),
                 label: 'Profile',
