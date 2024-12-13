@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mie_bagoyang/app/modules/home/views/home_view.dart';
 import 'package:mie_bagoyang/app/modules/order/views/order_view.dart';
+import 'package:mie_bagoyang/app/modules/profil/views/profil.dart';
 import 'package:mie_bagoyang/app/modules/register/views/register_view.dart';
 import 'package:mie_bagoyang/app/shared/theme.dart';
 import '../controllers/main_navigation_controller.dart';
@@ -24,6 +25,8 @@ class MainNavigationView extends GetView<MainNavigationController> {
             return const OrderView();
           case 2:
             return const RegisterView();
+          case 3:
+            return const AccountPage();
           default:
             return const Center(
               child: Text("Page not found!"),

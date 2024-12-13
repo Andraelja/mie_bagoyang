@@ -25,8 +25,9 @@ class HomeController extends GetxController {
   }
 
   void _autoSlide() {
-    if (!pageController.hasClients)
+    if (!pageController.hasClients) {
       return; // Mencegah error jika controller belum terpasang
+    }
 
     if (currentPage.value < totalPages - 1) {
       pageController.animateToPage(
