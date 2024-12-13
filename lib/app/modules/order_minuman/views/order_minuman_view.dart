@@ -12,37 +12,37 @@ class OrderMinumanView extends GetView<OrderMinumanController> {
       {
         "title": "Jus Mangga",
         "price": "Rp.5.000",
-        "image": "assets/images/mie_bagoyang.jpg",
+        "image": "assets/images/jus_mangga.jpeg",
       },
       {
         "title": "Jus Jeruk",
         "price": "Rp. 5.000",
-        "image": null,
+        "image": "es_jeruk.png",
       },
       {
         "title": "Jus Tomat",
         "price": "Rp. 5.000",
-        "image": null,
+        "image": "assets/images/jus_tomat.jpg",
       },
       {
         "title": "Teh telor",
         "price": "Rp. 12.000",
-        "image": null,
+        "image": "assets/images/teh_telur.png",
       },
       {
         "title": "Jasjus",
         "price": "Rp. 1.000",
-        "image": null,
+        "image": "assets/images/jasjus.jpeg",
       },
       {
         "title": "Teh Manis",
         "price": "Rp. 5.000",
-        "image": null,
+        "image": "assets/images/teh_manis.jpg",
       },
       {
         "title": "Cappucino",
         "price": "Rp. 5.000",
-        "image": null,
+        "image": "assets/images/cappucino.jpg",
       },
     ];
 

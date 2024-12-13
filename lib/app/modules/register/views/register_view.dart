@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../controllers/register_controller.dart';
+import 'package:mie_bagoyang/app/modules/register/controllers/register_controller.dart';
 
 class RegisterView extends GetView<RegisterController> {
   const RegisterView({super.key});
@@ -8,47 +8,46 @@ class RegisterView extends GetView<RegisterController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 244, 124, 44),
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () {
+            // Navigasi kembali ke halaman login
+            Get.back();
+          },
+        ),
+      ),
       backgroundColor:
           const Color.fromARGB(255, 244, 124, 44), // Latar belakang utama
       body: Padding(
-        padding: const EdgeInsets.all(20.0), // Padding untuk isi form
+        padding: const EdgeInsets.all(20.0),
         child: Column(
-          mainAxisAlignment:
-              MainAxisAlignment.start, // Semua elemen dimulai dari atas
+          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Jarak dari atas layar
-            const SizedBox(height: 80),
-
-            // Teks judul
+            const SizedBox(height: 40),
             const Text(
               'Ayo Daftar Dulu!',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: Colors.black, // Warna teks
+                color: Colors.black,
               ),
             ),
-
-            // Jarak antara teks judul dan form input
             const SizedBox(height: 40),
-
-            // Form input username
             TextField(
               decoration: InputDecoration(
                 labelText: 'Username',
                 filled: true,
-                fillColor: Colors.grey[300], // Warna latar belakang input
+                fillColor: Colors.grey[300],
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10), // Sudut melengkung
+                  borderRadius: BorderRadius.circular(10),
                 ),
               ),
             ),
-
-            // Jarak antar form input
             const SizedBox(height: 15),
-
-            // Form input password
             TextField(
               decoration: InputDecoration(
                 labelText: 'Password',
@@ -58,13 +57,9 @@ class RegisterView extends GetView<RegisterController> {
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
-              obscureText: true, // Untuk menyembunyikan input password
+              obscureText: true,
             ),
-
-            // Jarak antar form input
             const SizedBox(height: 15),
-
-            // Form input email
             TextField(
               decoration: InputDecoration(
                 labelText: 'Email',
@@ -75,23 +70,17 @@ class RegisterView extends GetView<RegisterController> {
                 ),
               ),
             ),
-
-            // Jarak antara form terakhir dan tombol daftar
             const SizedBox(height: 30),
-
-            // Tombol daftar
             SizedBox(
               child: ElevatedButton(
                 onPressed: () {
-                  // Logika untuk pendaftaran
                   Get.snackbar('Daftar', 'Berhasil mendaftar!');
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white, // Warna tombol
-                  foregroundColor: Colors.black, // Warna teks tombol
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 15,
-                      horizontal: 50), // Tambah padding horizontal
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.black,
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 15, horizontal: 50),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),

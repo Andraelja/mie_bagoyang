@@ -7,6 +7,10 @@ class HomeView extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
+    final PageController pageController =
+        PageController(); // Local PageController
+    final RxInt currentPage = 0.obs; // Local RxInt to track current page
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -33,9 +37,9 @@ class HomeView extends GetView<HomeController> {
                       child: Stack(
                         children: [
                           PageView(
-                            controller: controller.pageController,
+                            controller: pageController,
                             onPageChanged: (int page) {
-                              controller.currentPage.value = page;
+                              currentPage.value = page;
                             },
                             children: [
                               Image.asset(
@@ -63,14 +67,14 @@ class HomeView extends GetView<HomeController> {
                                   3,
                                   (index) => Container(
                                     margin: const EdgeInsets.symmetric(
-                                        horizontal: 4),
+                                      horizontal: 4,
+                                    ),
                                     width: 8,
                                     height: 8,
                                     decoration: BoxDecoration(
-                                      color:
-                                          controller.currentPage.value == index
-                                              ? Colors.white
-                                              : Colors.white54,
+                                      color: currentPage.value == index
+                                          ? Colors.white
+                                          : Colors.white54,
                                       shape: BoxShape.circle,
                                     ),
                                   ),
@@ -83,12 +87,9 @@ class HomeView extends GetView<HomeController> {
                     ),
                   ),
 
-                  // Best Seller Section
+                  // Sections
                   _buildBestSellerSection(),
-
                   const SizedBox(height: 16),
-
-                  // Grid Items
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: _buildSpecialGrid(),
@@ -97,8 +98,6 @@ class HomeView extends GetView<HomeController> {
               ),
             ),
           ),
-
-          // Pesan Sekarang Button
           _buildPesanSekarangButton(),
         ],
       ),
@@ -246,43 +245,153 @@ class HomeView extends GetView<HomeController> {
   Widget _buildPesanSekarangButton() {
     return Obx(() {
       return Container(
-        padding: const EdgeInsets.fromLTRB(
-            16, 8, 16, 16), // Padding di sekitar tombol
-        decoration: const BoxDecoration(
-          color: Colors.white, // Latar belakang putih agar tombol menonjol
-        ),
-        child: ElevatedButton(
-          onPressed: controller.totalItems > 0
-              ? () {
-                  Get.snackbar(
-                    'Pesanan Anda',
-                    'Total barang yang dipesan: ${controller.totalItems}',
-                    snackPosition: SnackPosition.BOTTOM,
-                  );
-                }
-              : null,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: controller.totalItems > 0
-                ? Colors.orange // Warna tombol oranye saat aktif
-                : Colors
-                    .orange.shade200, // Warna lebih terang saat tombol nonaktif
-            disabledBackgroundColor: Colors.orange.shade200,
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+        decoration: const BoxDecoration(color: Colors.white),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const SizedBox(height: 8),
+            ElevatedButton(
+              onPressed: controller.totalItems > 0
+                  ? () {
+                      Get.dialog(
+                        AlertDialog(
+                          title: const Text('Rincian Pesanan'),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              // Menampilkan rincian pesanan
+                              Column(
+                                children:
+                                    controller.getSelectedItems().map((item) {
+                                  return ListTile(
+                                    title: Text(item['name']),
+                                    subtitle: Text('Jumlah: ${item['count']}'),
+                                    trailing: Text(
+                                      'Rp ${item['count'] * item['price']}',
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                              const Divider(),
+                              // Menampilkan total harga
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: Obx(() {
+                                  return Text(
+                                    'Total: Rp. ${controller.calculateTotal()}',
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  );
+                                }),
+                              ),
+                            ],
+                          ),
+                          actions: [
+                            ElevatedButton(
+                              onPressed: () {
+                                Get.back(); // Tutup dialog
+                                Get.snackbar(
+                                  'Metode Pembayaran',
+                                  'Fitur pilih metode pembayaran akan ditambahkan.',
+                                );
+                              },
+                              child: const Text('Pilih Metode Pembayaran'),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                  : null,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: controller.totalItems > 0
+                    ? Colors.orange
+                    : Colors.orange.shade200,
+                disabledBackgroundColor: Colors.orange.shade200,
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                elevation: 4,
+              ),
+              child: Text(
+                'Pesan Sekarang',
+                style: TextStyle(
+                  fontSize: 18,
+                  color:
+                      controller.totalItems > 0 ? Colors.white : Colors.white70,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
-            elevation: 4, // Memberikan efek bayangan pada tombol
-          ),
-          child: Text(
-            'Pesan Sekarang',
-            style: TextStyle(
-              fontSize: 18,
-              color: controller.totalItems > 0 ? Colors.white : Colors.white70,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          ],
         ),
       );
     });
+  }
+
+  Widget _buildRincianPesananModal() {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Text(
+            'Rincian Pesanan',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Obx(() {
+            return Column(
+              children: controller.getSelectedItems().map((item) {
+                return ListTile(
+                  title: Text(item['name']),
+                  subtitle: Text('Jumlah: ${item['count']}'),
+                  trailing: Text(
+                    'Rp. ${item['count'] * item['price']}',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                );
+              }).toList(),
+            );
+          }),
+          const Divider(),
+          Obx(() {
+            return Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                'Total: Rp. ${controller.calculateTotal()}',
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            );
+          }),
+          const SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: () {
+              Get.toNamed('/payment_method'); // Navigasi ke metode pembayaran
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.green,
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            child: const Text(
+              'Pilih Metode Pembayaran',
+              style: TextStyle(fontSize: 16, color: Colors.white),
+            ),
+          ),
+          const SizedBox(height: 16),
+        ],
+      ),
+    );
   }
 }
